@@ -214,11 +214,11 @@ class BodyModel(nn.Module):
         if pose_hand is None and self.model_type not in ['animal_horse', 'animal_dog']:  pose_hand = self.init_pose_hand.expand(batch_size, -1)
 
         if trans is None: trans = self.init_trans.expand(batch_size, -1)
-        if v_template is None: v_template = self.init_v_template.expand(batch_size, -1,-1)
+        if v_template is None: v_template = self.init_v_template.expand(batch_size, -1,-1) #[60,6890,3]
         if betas is None: betas = self.init_betas.expand(batch_size, -1)
 
         if self.model_type in ['smplh', 'smpl']:
-            full_pose = torch.cat([root_orient, pose_body, pose_hand], dim=-1)
+            full_pose = torch.cat([root_orient, pose_body, pose_hand], dim=-1) #【60，156】
         elif self.model_type == 'smplx':
             full_pose = torch.cat([root_orient, pose_body, pose_jaw, pose_eye, pose_hand], dim=-1)  # orient:3, body:63, jaw:3, eyel:3, eyer:3, handl, handr
         elif self.model_type in ['mano', ]:
@@ -228,8 +228,8 @@ class BodyModel(nn.Module):
 
         if self.use_dmpl:
             if dmpls is None: dmpls = self.init_dmpls.expand(batch_size, -1)
-            shape_components = torch.cat([betas, dmpls], dim=-1)
-            shapedirs = torch.cat([self.shapedirs, self.dmpldirs], dim=-1)
+            shape_components = torch.cat([betas, dmpls], dim=-1) #【60，18】
+            shapedirs = torch.cat([self.shapedirs, self.dmpldirs], dim=-1) #【6890，3，18】
         elif self.model_type == 'smplx':
             if expression is None: expression = self.init_expression.expand(batch_size, -1)
             shape_components = torch.cat([betas, expression], dim=-1)
@@ -249,7 +249,7 @@ class BodyModel(nn.Module):
 
         res = {}
         res['v'] = verts
-        res['f'] = self.f
+        res['f'] = self.f #[13776,3]
         res['Jtr'] = Jtr  # Todo: ik can be made with vposer
         # res['bStree_table'] = self.kintree_table
 

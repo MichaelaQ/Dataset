@@ -213,7 +213,7 @@ def lbs(betas, pose, v_template, shapedirs, posedirs, J_regressor, parents,
     if joints is not None:
         J = joints
     else:
-        J = vertices2joints(J_regressor, v_shaped)
+        J = vertices2joints(J_regressor, v_shaped) #[60,52,3]
 
     # 3. Add pose blend shapes
     # N x J x 3 x 3
@@ -232,9 +232,9 @@ def lbs(betas, pose, v_template, shapedirs, posedirs, J_regressor, parents,
         pose_offsets = torch.matmul(pose_feature.view(batch_size, -1),
                                     posedirs).view(batch_size, -1, 3)
 
-    v_posed = pose_offsets + v_shaped
+    v_posed = pose_offsets + v_shaped #[60,6890,3]
     # 4. Get the global joint location
-    J_transformed, A = batch_rigid_transform(rot_mats, J, parents, dtype=dtype)
+    J_transformed, A = batch_rigid_transform(rot_mats, J, parents, dtype=dtype) #[60,52,3]
 
     # 5. Do skinning:
     # W is N x V x (J + 1)
@@ -249,7 +249,7 @@ def lbs(betas, pose, v_template, shapedirs, posedirs, J_regressor, parents,
     v_posed_homo = torch.cat([v_posed, homogen_coord], dim=2)
     v_homo = torch.matmul(T, torch.unsqueeze(v_posed_homo, dim=-1))
 
-    verts = v_homo[:, :, :3, 0]
+    verts = v_homo[:, :, :3, 0] #[60,6890,3]
 
     return verts, J_transformed
 
