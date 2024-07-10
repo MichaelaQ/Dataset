@@ -3,6 +3,7 @@ import spacy
 from tqdm import tqdm
 import codecs as cs
 from os.path import join as pjoin
+import os
 
 nlp = spacy.load('en_core_web_sm')
 def process_text(sentence):
@@ -21,18 +22,35 @@ def process_text(sentence):
         pos_list.append(token.pos_)
     return word_list, pos_list
 
-def process_humanml3d(corpus):
-    text_save_path = './dataset/pose_data_raw/texts'
-    desc_all = corpus
-    for i in tqdm(range(len(desc_all))):
-        caption = desc_all.iloc[i]['caption']
-        start = desc_all.iloc[i]['from']
-        end = desc_all.iloc[i]['to']
-        name = desc_all.iloc[i]['new_joint_name']
-        word_list, pose_list = process_text(caption)
-        tokens = ' '.join(['%s/%s'%(word_list[i], pose_list[i]) for i in range(len(word_list))])
-        with cs.open(pjoin(text_save_path, name.replace('npy', 'txt')), 'a+') as f:
-            f.write('%s#%s#%s#%s\n'%(caption, tokens, start, end))
+def process_humanml3d():
+    text_save_path = '/sata/public/yyqi/Dataset/OCEAN/processedText'
+    directory = '/sata/public/yyqi/Dataset/OCEAN/text'
+    # desc_all = corpus
+    for filename in os.listdir(directory):
+        if filename.endswith('.txt'):
+            file_path = os.path.join(directory, filename)
+            with open(file_path, 'r', encoding='utf-8') as file:
+                for line in file:
+                    caption = line.strip().lower()
+                    start = 0.0
+                    end = 0.0
+
+                    word_list, pose_list = process_text(caption)
+                    tokens = ' '.join(['%s/%s'%(word_list[i], pose_list[i]) for i in range(len(word_list))])
+                    with cs.open(pjoin(text_save_path, filename), 'a+') as f:
+                        f.write('%s#%s#%s#%s\n'%(caption, tokens, start, end))
+
+
+
+    # for i in tqdm(range(len(desc_all))):
+    #     caption = desc_all.iloc[i]['caption']
+    #     start = desc_all.iloc[i]['from']
+    #     end = desc_all.iloc[i]['to']
+    #     name = desc_all.iloc[i]['new_joint_name']
+    #     word_list, pose_list = process_text(caption)
+    #     tokens = ' '.join(['%s/%s'%(word_list[i], pose_list[i]) for i in range(len(word_list))])
+    #     with cs.open(pjoin(text_save_path, name.replace('npy', 'txt')), 'a+') as f:
+    #         f.write('%s#%s#%s#%s\n'%(caption, tokens, start, end))
 
 def process_kitml(corpus):
     text_save_path = './dataset/kit_mocap_dataset/texts'
@@ -48,5 +66,6 @@ def process_kitml(corpus):
             f.write('%s#%s#%s#%s\n' % (caption, tokens, start, end))
 
 if __name__ == "__main__":
-    corpus = pd.read_csv('./dataset/kit_mocap_dataset/desc_final.csv')
-    process_humanml3d(corpus)
+    # corpus = pd.read_csv('./dataset/kit_mocap_dataset/desc_final.csv')
+    # process_humanml3d(corpus)
+    process_humanml3d()
