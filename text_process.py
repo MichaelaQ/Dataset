@@ -148,19 +148,14 @@ def process():
                             
 
 
-
-                    
-
-
-
 if __name__ == "__main__":
     # corpus = pd.read_csv('./dataset/kit_mocap_dataset/desc_final.csv')
     # process_humanml3d(corpus)
     """ 处理成humanml3d表示形式 """
-    # process_humanml3d()
+    process_humanml3d()
 
     """ 异常文件处理 """
-    process()
+    # process()
 
 
     """ 单个文件处理 """
