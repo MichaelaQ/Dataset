@@ -10,3 +10,4 @@ OCEAN
 logActionmax.txt
 logDataError.txt
 positions_2.mp4
+distanceMatrix.pickle
