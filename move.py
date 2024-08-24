@@ -40,9 +40,9 @@ def copy():
 
     # 定义文件路径
     log_file_path = 'choose.txt' #保存要移动的文件名
-    base_dir_text = '/sata/public/yyqi/Dataset/OCEAN_copy/text' #原始文件夹路径
-    base_dir_joint = '/sata/public/yyqi/Dataset/OCEAN_copy/new_joints' 
-    base_dir_vecs = '/sata/public/yyqi/Dataset/OCEAN_copy/new_joint_vecs' 
+    # base_dir_text = '/sata/public/yyqi/Dataset/OCEAN_copy/text' #原始文件夹路径
+    base_dir_joint = '/sata/public/yyqi/Dataset/interx/new_joints' 
+    base_dir_vecs = '/sata/public/yyqi/Dataset/interx/new_joint_vecs' 
     process_dir = '/sata/public/yyqi/Dataset/OCEAN' 
 
 
@@ -53,13 +53,13 @@ def copy():
 
     # 复制文件
     for file_name in file_names:
-        source_path = os.path.join(base_dir_text , file_name[:-4] + '.txt')  # 假设文件后缀为 .txt
-        destination_path = os.path.join(process_dir+'/text', file_name[:-4] + '.txt')
+        # source_path = os.path.join(base_dir_text , file_name[:-4] + '.txt')  # 假设文件后缀为 .txt
+        # destination_path = os.path.join(process_dir+'/text', file_name[:-4] + '.txt')
         
-        if os.path.exists(source_path):
-            shutil.copy(source_path, destination_path)
-        else:
-            print(f"File not found: {file_name}.txt")
+        # if os.path.exists(source_path):
+        #     shutil.copy(source_path, destination_path)
+        # else:
+        #     print(f"File not found: {file_name}.txt")
         #移动
 
         source_path = os.path.join(base_dir_joint , file_name[:-4] + '.npy')  # 假设文件后缀为 .txt
