@@ -62,16 +62,16 @@ def copy():
         #     print(f"File not found: {file_name}.txt")
         #移动
 
-        source_path = os.path.join(base_dir_joint , file_name[:-4] + '.npy')  # 假设文件后缀为 .txt
-        destination_path = os.path.join(process_dir+'/new_joints', file_name[:-4] + '.npy')
+        source_path = os.path.join(base_dir_joint , file_name + '.npy')  # 假设文件后缀为 .txt
+        destination_path = os.path.join(process_dir+'/new_joints', file_name + '.npy')
         
         if os.path.exists(source_path):
             shutil.copy(source_path, destination_path)
         else:
             print(f"File not found: {file_name}.npy")
 
-        source_path = os.path.join(base_dir_vecs , file_name[:-4] + '.npy')  # 假设文件后缀为 .txt
-        destination_path = os.path.join(process_dir+'/new_joint_vecs', file_name[:-4] + '.npy')
+        source_path = os.path.join(base_dir_vecs , file_name + '.npy')  # 假设文件后缀为 .txt
+        destination_path = os.path.join(process_dir+'/new_joint_vecs', file_name + '.npy')
         
         if os.path.exists(source_path):
             shutil.copy(source_path, destination_path)

@@ -24,8 +24,8 @@ def process_text(sentence):
     return word_list, pos_list
 
 def process_humanml3d():
-    text_save_path = '/sata/public/yyqi/Dataset/OCEAN/processedText'
-    directory = '/sata/public/yyqi/Dataset/OCEAN/text'
+    text_save_path = '/sata/public/yyqi/Dataset/OCEAN/processedTextNew'
+    directory = '/sata/public/yyqi/Dataset/OCEAN/textNew'
     if os.path.exists(text_save_path): # 当文件夹存在时清空文件夹
         shutil.rmtree(text_save_path, True)
         os.makedirs(text_save_path)
@@ -37,7 +37,11 @@ def process_humanml3d():
         if filename.endswith('.txt'):
             file_path = os.path.join(directory, filename)
             with open(file_path, 'r', encoding='utf-8') as file:
+                n = 0 
                 for line in file:
+                    n += 1
+                    if n>=4:
+                        continue
                     caption = line.strip().lower()
                     start = 0.0
                     end = 0.0
